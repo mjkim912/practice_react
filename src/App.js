@@ -1,25 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Row, Col, Spin } from "antd";
+import { useSelector } from "react-redux";
 
-function App() {
+import Main from "./components/pages/main";
+import Login from "./components/pages/login";
+import Hooks from "./components/pages/hooks";
+import Antd from "./components/pages/antd";
+import Board from "./components/pages/board";
+import BoardDetail from "./components/pages/board/detail";
+import BoardUpdate from "./components/pages/board/update";
+import BoardInsert from "./components/pages/board/insert";
+
+import Header from "./components/templates/Header";
+import Footer from "./components/templates/Footer";
+
+export default function App() {
+  const { isLoading } = useSelector((state) => state.common);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Spin spinning={isLoading}>
+        <Row>
+          <Col span={24}>
+            <Row>
+              <Col span={24}>
+                {/* { header } */}
+                <Header />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                {/* { contents } */}
+                <Routes>
+                  <Route path="/main" element={<Main />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/hooks" element={<Hooks />} />
+                  <Route path="/antd" element={<Antd />} />
+                  <Route path="/board" element={<Board />} />
+                  {/** 게시판 상세페이지 */}
+                  <Route path="/board/detail/:id" element={<BoardDetail />} />
+                  <Route path="/board/update/:id" element={<BoardUpdate />} />
+                  <Route path="/board/insert" element={<BoardInsert />} />
+                </Routes>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                {/* { footer } */}
+                <Footer />
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Spin>
+    </BrowserRouter>
   );
 }
-
-export default App;
